@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body class="flex-column min-100-vh">
+    <header class="hero">
+        <h1 class="app-title"><i class="fab fa-github">Weather Dashboard</i></h1>
+    </header>
+
+    <main class="flex-row justify-space-between">
+
+        <div class="col-12 col-md-2">
+            <div class="card">
+                <h3 class="card-header text-uppercase">Search for a City:</h3>
+                <form id="user-form" class="card-body">
+                    <input name="username" id="username" type="text" autofocus="true" class="form-input" />
+                    <button type="submit" class="btn">Search</button>
+                </form>
+                <ul id="city-list">
+                    <li>Atlanta</li>
+                    <li>Madison</li>
+                    <li>Chicago</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-10">
+
+            <div class="flex-row">
+                <div class="col-12 col-md-4">
+                    <div class="card" id="current-weather">
+                        <!-- <p>Date</p>
+                        <p>City</p>
+                        <p>Degrees</p>
+                        <p>icon</p>
+                        <p>humidity/wind speed/UV Index</p> -->
+                    </div> 
+                </div>
+            </div>
+
+            <div class="flex-row">
+                <h3>5 Day Forecast</h3>
+            </div>
+
+            <div class="flex-row">       
+                <div class="col-12 col-md-2">
+                    <div class="card">
+                        <h4>Date/Day</h4>
+                        <p>icon</p>
+                        <p>temp</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="card">
+                        <h4>Date/Day</h4>
+                        <p>icon</p>
+                        <p>temp</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="card">
+                        <h4>Date/Day</h4>
+                        <p>icon</p>
+                        <p>temp</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="card">
+                        <h4>Date/Day</h4>
+                        <p>icon</p>
+                        <p>temp</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="card">
+                        <h4>Date/Day</h4>
+                        <p>icon</p>
+                        <p>temp</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+    </main>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

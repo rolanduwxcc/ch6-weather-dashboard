@@ -41,9 +41,9 @@ function fetchWeatherFor(city,isSavedCity) {
                 country = coordinatesJSON[0].country;
                 if (country === "US") { 
                     state = coordinatesJSON[0].state;
-                    citySpecific = coordinatesJSON[0].name + ", " + country + "-" + state;
+                    citySpecific = coordinatesJSON[0].name + "," + state + "," + country;
                 } else {
-                    citySpecific = coordinatesJSON[0].name + ", " + country;
+                    citySpecific = coordinatesJSON[0].name + "," + country;
                 }
                 //feed the coordinates back to openweathermap to get all the date we need
                 fetchWeatherForCoordinates(latitude, longitude, citySpecific);
@@ -200,10 +200,11 @@ function citySearchHandler(event) {
 
 function savedCitiesHandler(event) {
     event.preventDefault();
-    // console.log(this); //where the listener was setup
-    // console.log(event.target); //what element actually started it all
+    console.log(this); //where the listener was setup
+    console.log(event.target); //what element actually started it all
     //get the saved city string
     currentCity = event.target.textContent;
+    console.log(currentCity);
     fetchWeatherFor(currentCity,true);
 }
 

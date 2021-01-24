@@ -12,8 +12,8 @@ Displays weather outlook for a selected city.
 * Google Fonts
 
 ## Links
-* Deployed Website - https://rolanduwxcc.github.io/ch5-work-day-scheduler/
-* GitHub Repo - https://github.com/rolanduwxcc/ch5-work-day-scheduler
+* Deployed Website - https://rolanduwxcc.github.io/ch6-weather-dashboard/
+* GitHub Repo - https://github.com/rolanduwxcc/ch6-weather-dashboard
 * OpenWeather API - https://openweathermap.org/api
 * Font Awesome - https://fontawesome.com/
 * Google Fonts - https://developers.google.com/fonts

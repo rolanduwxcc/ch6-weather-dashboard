@@ -2,7 +2,7 @@
 let openWeatherKey="eb3997fae2c925d2df0bffe2f227aa9d";
 let savedCities = [];
 let cityListEl = document.getElementById('city-list');
-let currentCity="Madison,WI,US";
+let currentCity="Madison,US-WI";
 let cityInputEl = document.getElementById('city');
 let citySearchFormEl = document.getElementById('city-search-form');
 let currentWeatherEl = document.getElementById('current-weather');
@@ -15,20 +15,36 @@ function fetchWeatherFor(city,isSavedCity) {
       }
     var latitude;
     var longitude;
+    var state;
+    var country;
+    var citySpecific;
     var geoCodeLimits=5;
     var openWeatherGeoCodeURL = "https://api.openweathermap.org/geo/1.0/direct?q="+city+"&appid="+openWeatherKey+"&limit="+geoCodeLimits;
     //see https://openweathermap.org/api/geocoding-api#direct_how for reference on how to configure this URL.
     console.log(openWeatherGeoCodeURL);
-    fetch(openWeatherGeoCodeURL).then(function(response) {
+
+    fetch(openWeatherGeoCodeURL)
+    .then(function(response) {
         if(response.ok) {
             response.json().then(function(coordinatesJSON){
                 latitude = coordinatesJSON[0].lat;
                 longitude = coordinatesJSON[0].lon;
+                city = coordinatesJSON[0].name;
+                country = coordinatesJSON[0].country;
+                if (country === "US") { 
+                    state = coordinatesJSON[0].state;
+                    citySpecific = coordinatesJSON[0].name + ", " + country + "-" + state;
+                } else {
+                    citySpecific = coordinatesJSON[0].name + ", " + country;
+                }
                 //feed the coordinates back to openweathermap to get all the date we need
-                fetchWeatherForCoordinates(latitude, longitude);
-                if (!isSavedCity) { saveCity(city, latitude, longitude); } //only need to save if not already there
+                fetchWeatherForCoordinates(latitude, longitude, citySpecific);
+                if (!isSavedCity) { saveCity(citySpecific, latitude, longitude); } //only need to save if not already there
             });
-        } else {
+        } else if (!response.ok) {
+            alert("Error: issue with input, it is not okay.");
+        } 
+        else {
             alert("Error: " + response.statusText);            
         }
     })
@@ -37,7 +53,7 @@ function fetchWeatherFor(city,isSavedCity) {
     });
 }
 
-function fetchWeatherForCoordinates(latitude,longitude) {
+function fetchWeatherForCoordinates(latitude,longitude,citySpecific) {
     var weatherUnits="imperial";
     var weatherDataToExclude="minutely,hourly,alerts";
     var openWeatherUrl ="https://api.openweathermap.org/data/2.5/onecall?lat="+latitude+"&lon="+longitude+"&exclude="+weatherDataToExclude+"&appid="+openWeatherKey+"&units="+weatherUnits;
@@ -47,7 +63,7 @@ function fetchWeatherForCoordinates(latitude,longitude) {
         if(response.ok) {
             response.json().then(function(weatherJSON) {
                 //take the weather data we got back and build HTML
-                buildCurrentWeatherHTML(weatherJSON);
+                buildCurrentWeatherHTML(weatherJSON,citySpecific);
                 buildFiveDayForecastHTML(weatherJSON);
             });
         } else {
@@ -59,14 +75,14 @@ function fetchWeatherForCoordinates(latitude,longitude) {
     });
 }
 
-function buildCurrentWeatherHTML(fromWeatherJSON) {
+function buildCurrentWeatherHTML(fromWeatherJSON,citySpecific) {
     currentWeatherEl.innerHTML = "";
     currentWeatherEl.setAttribute("class","card");
     document.getElementById("currently-title").setAttribute("class","");
 
     //Header = city (date) icon
     var headerEl = document.createElement("h3");
-    headerEl.innerHTML = currentCity + " (" + getReadableDate(fromWeatherJSON.current.dt) + ") ";
+    headerEl.innerHTML = citySpecific + " (" + getReadableDate(fromWeatherJSON.current.dt) + ") ";
     currentWeatherEl.appendChild(headerEl);
 
     //image of weather
@@ -170,8 +186,8 @@ function citySearchHandler(event) {
 
 function savedCitiesHandler(event) {
     event.preventDefault();
-    console.log(this); //where the listener was setup
-    console.log(event.target); //what element actually started it all
+    // console.log(this); //where the listener was setup
+    // console.log(event.target); //what element actually started it all
     //get the saved city string
     currentCity = event.target.textContent;
     fetchWeatherFor(currentCity,true);

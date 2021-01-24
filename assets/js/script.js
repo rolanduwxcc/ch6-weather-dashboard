@@ -59,6 +59,8 @@ function fetchWeatherForCoordinates(latitude,longitude) {
 function buildCurrentWeatherHTML(fromWeatherJSON) {
     currentWeatherEl.innerHTML = "";
     currentWeatherEl.setAttribute("class","card");
+    document.getElementById("currently-title").setAttribute("class","");
+
     //Header = city (date) icon
     var headerEl = document.createElement("h3");
     headerEl.innerHTML = currentCity + " (" + getReadableDate(fromWeatherJSON.current.dt) + ") ";
@@ -192,7 +194,7 @@ function loadCities() {
     }
 
     cityListEl.innerHTML = "";
-    for (let i = 0; i < savedCities.length; i++) {
+    for (let i = savedCities.length-1; i >= 0; i--) {
         const element = savedCities[i];
         let prevCityButtonEl = document.createElement("button");
         prevCityButtonEl.setAttribute("type","button");

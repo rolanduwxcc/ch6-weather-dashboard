@@ -144,6 +144,18 @@
   .icon-success {
     color: rgb(29, 153, 255);
   }
+
+  .low-risk {
+    background-color: rgb(105, 245, 168);
+  }
+  .moderate-risk {
+    background-color: rgb(235,245,105);
+  }
+  .high-risk {
+    background-color: rgb(156, 8, 13);
+    color: seashell;
+  }
+
   
   /* CARDS */
   .card {

@@ -60,27 +60,41 @@ function buildCurrentWeatherHTML(fromWeatherJSON) {
     currentWeatherEl.innerHTML = "";
     //Header = city (date) icon
     var headerEl = document.createElement("h3");
-    headerEl.innerHTML = currentCity + " (" + getReadableDate(fromWeatherJSON.current.dt) + ") " + "<img src='http://openweathermap.org/img/wn/"+fromWeatherJSON.current.weather[0].icon+"@2x.png'>";
+    headerEl.innerHTML = currentCity + " (" + getReadableDate(fromWeatherJSON.current.dt) + ") ";
     currentWeatherEl.appendChild(headerEl);
+
+    //image of weather
+    var weatherVisualEl = document.createElement("p");
+    weatherVisualEl.innerHTML="<img src='http://openweathermap.org/img/wn/"+fromWeatherJSON.current.weather[0].icon+"@2x.png'>";
+    currentWeatherEl.appendChild(weatherVisualEl);
 
     //Temperature
     var temperatureEl = document.createElement("p");
-    temperatureEl.innerHTML = "Temperature: " + fromWeatherJSON.current.temp;
+    temperatureEl.innerHTML = "Temperature: " + fromWeatherJSON.current.temp + String.fromCharCode(176) + "F";
     currentWeatherEl.appendChild(temperatureEl);
 
     //Humidity
     var humidityEl = document.createElement("p");
-    humidityEl.innerHTML = "Humidity: " + fromWeatherJSON.current.humidity;
+    humidityEl.innerHTML = "Humidity: " + fromWeatherJSON.current.humidity + "%";
     currentWeatherEl.appendChild(humidityEl);
 
     //Wind Speed
     var windSpeedEl = document.createElement("p");
-    windSpeedEl.innerHTML = "Wind Speed: " + fromWeatherJSON.current.wind_speed;
+    windSpeedEl.innerHTML = "Wind Speed: " + fromWeatherJSON.current.wind_speed + " MPH";
     currentWeatherEl.appendChild(windSpeedEl);
 
     //UV Index with Green/Yellow/Red background based on value
+    var uvIndexValue = fromWeatherJSON.current.uvi;
     var uvIndexEl = document.createElement("p");
-    uvIndexEl.innerHTML = "UV Index: <span class='danger'>" + fromWeatherJSON.current.uvi + "</span>";
+    if (uvIndexValue < 3) {
+        uvIndexEl.innerHTML = "UV Index: <span class='low-risk'>" + uvIndexValue.toFixed(2) + "</span>";
+    } 
+    else if (uvIndexValue < 5) {
+        uvIndexEl.innerHTML = "UV Index: <span class='moderate-risk'>" + uvIndexValue.toFixed(2) + "</span>";
+    }
+    else {
+        uvIndexEl.innerHTML = "UV Index: <span class='high-risk'>" + uvIndexValue.toFixed(2) + "</span>";
+    }
     currentWeatherEl.appendChild(uvIndexEl);
 }
 
@@ -111,10 +125,10 @@ function buildFiveDayForecastHTML(fromWeatherJSON) {
         iconEl.innerHTML = "<img src='http://openweathermap.org/img/wn/"+weatherForDay.weather[0].icon+"@2x.png'>";
         dayCardEl.appendChild(iconEl);
 
-        temperatureEl.innerHTML = "Temperature: " + weatherForDay.temp.max;
+        temperatureEl.innerHTML = "Temp: " + weatherForDay.temp.max + String.fromCharCode(176) + "F";
         dayCardEl.appendChild(temperatureEl);
 
-        humidityEl.innerHTML = "Humidity: " + weatherForDay.humidity;
+        humidityEl.innerHTML = "Humidity: " + weatherForDay.humidity +"%";
         dayCardEl.appendChild(humidityEl);
 
         document.getElementById(elementID).innerHTML="";
@@ -139,7 +153,13 @@ function citySearchHandler(event) {
     } else {
         alert("Please enter a valide city or city,state");
     }
-    
+}
+
+function savedCitiesHandler(event) {
+    event.preventDefault();
+    console.log("i was clicked");
+    //get the saved city string
+    // currentCity = 
 }
 
 function saveCity(city,latitude,longitude) {
@@ -162,12 +182,13 @@ function loadCities() {
         savedCities = [];
     }
 
+    cityListEl.innerHTML = "";
     for (let i = 0; i < savedCities.length; i++) {
         const element = savedCities[i];
         let prevCityButtonEl = document.createElement("button");
         prevCityButtonEl.setAttribute("type","button");
         prevCityButtonEl.setAttribute("class","col-md-2 btn saveBtn");
-        prevCityButtonEl.textContent = element.city;
+        prevCityButtonEl.textContent = element.city.replace(",",", ");
         cityListEl.appendChild(prevCityButtonEl);
     }
 }
@@ -177,6 +198,7 @@ function loadCities() {
 // fetchWeatherFor(currentCity);
 loadCities();
 citySearchFormEl.addEventListener("submit",citySearchHandler);
+cityListEl.addEventListener("submit",savedCitiesHandler);
 
 
 

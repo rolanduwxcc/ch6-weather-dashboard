@@ -9,7 +9,10 @@ let currentWeatherEl = document.getElementById('current-weather');
 
 
 //----------------------------------------------FUNCTIONS
-function fetchWeatherFor(city) {
+function fetchWeatherFor(city,isSavedCity) {
+    if (isSavedCity === undefined) {
+        isSavedCity = false;
+      }
     var latitude;
     var longitude;
     var geoCodeLimits=5;
@@ -23,7 +26,7 @@ function fetchWeatherFor(city) {
                 longitude=coordinatesJSON[0].lon;
                 //feed the coordinates back to openweathermap to get all the date we need
                 fetchWeatherForCoordinates(latitude,longitude);
-                saveCity(city,latitude,longitude);
+                if (!isSavedCity) {saveCity(city,latitude,longitude);} //only need to save if not already there
             });
         } else {
             alert("Error: " + response.statusText);
@@ -170,7 +173,7 @@ function savedCitiesHandler(event) {
     console.log(event.target); //what element actually started it all
     //get the saved city string
     currentCity = event.target.textContent;
-    fetchWeatherFor(currentCity);
+    fetchWeatherFor(currentCity,true);
 }
 
 function saveCity(city,latitude,longitude) {

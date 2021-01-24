@@ -15,11 +15,12 @@
 
     <main class="flex-row justify-space-between">
 
+        <!------------------------------------------------------ Search Section & Previous Searches -->
         <div class="col-12 col-md-2">
             <div class="card">
                 <h3 class="card-header text-uppercase">Search for a City:</h3>
-                <form id="user-form" class="card-body">
-                    <input name="username" id="username" type="text" autofocus="true" class="form-input" />
+                <form id="city-search-form" class="card-body">
+                    <input name="city" id="city" type="text" autofocus="true" class="form-input" />
                     <button type="submit" class="btn">Search</button>
                 </form>
                 <ul id="city-list">
@@ -30,65 +31,36 @@
             </div>
         </div>
 
+        <!------------------------------------------------------------------ Weather Display Sections -->
         <div class="col-12 col-md-10">
-
+            <!-----------------------------------------------------------------Current Weather Section-->
             <div class="flex-row">
                 <div class="col-12 col-md-4">
                     <div class="card" id="current-weather">
-                        <!-- <p>Date</p>
-                        <p>City</p>
-                        <p>Degrees</p>
-                        <p>icon</p>
-                        <p>humidity/wind speed/UV Index</p> -->
                     </div> 
                 </div>
             </div>
-
+            <!---------------------------------------------------------------------- Five Day Forcast -->
             <div class="flex-row">
                 <h3>5 Day Forecast</h3>
             </div>
-
             <div class="flex-row">       
-                <div class="col-12 col-md-2">
-                    <div class="card">
-                        <h4>Date/Day</h4>
-                        <p>icon</p>
-                        <p>temp</p>
-                        <p>humidity</p>
-                    </div>
+
+                <div class="col-12 col-md-2" id="day-0">
                 </div>
-                <div class="col-12 col-md-2">
-                    <div class="card">
-                        <h4>Date/Day</h4>
-                        <p>icon</p>
-                        <p>temp</p>
-                        <p>humidity</p>
-                    </div>
+
+                <div class="col-12 col-md-2" id="day-1">
                 </div>
-                <div class="col-12 col-md-2">
-                    <div class="card">
-                        <h4>Date/Day</h4>
-                        <p>icon</p>
-                        <p>temp</p>
-                        <p>humidity</p>
-                    </div>
+                
+                <div class="col-12 col-md-2" id="day-2">
                 </div>
-                <div class="col-12 col-md-2">
-                    <div class="card">
-                        <h4>Date/Day</h4>
-                        <p>icon</p>
-                        <p>temp</p>
-                        <p>humidity</p>
-                    </div>
+                
+                <div class="col-12 col-md-2" id="day-3">
                 </div>
-                <div class="col-12 col-md-2">
-                    <div class="card">
-                        <h4>Date/Day</h4>
-                        <p>icon</p>
-                        <p>temp</p>
-                        <p>humidity</p>
-                    </div>
+                
+                <div class="col-12 col-md-2" id="day-4">
                 </div>
+                
             </div>
 
 

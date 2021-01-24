@@ -6,7 +6,15 @@ let currentCity="Madison,US-WI";
 let cityInputEl = document.getElementById('city');
 let citySearchFormEl = document.getElementById('city-search-form');
 let currentWeatherEl = document.getElementById('current-weather');
-let stateAbbrevFormat = {}
+
+//found this on GitHub
+const stateAbbreviations = [
+    'AL','AK','AS','AZ','AR','CA','CO','CT','DE','DC','FM','FL','GA',
+    'GU','HI','ID','IL','IN','IA','KS','KY','LA','ME','MH','MD','MA',
+    'MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND',
+    'MP','OH','OK','OR','PW','PA','PR','RI','SC','SD','TN','TX','UT',
+    'VT','VI','VA','WA','WV','WI','WY'
+   ];
 
 //----------------------------------------------FUNCTIONS
 function fetchWeatherFor(city,isSavedCity) {
@@ -174,9 +182,15 @@ function citySearchHandler(event) {
 
     //get the submited city value
     currentCity = cityInputEl.value.trim();
-    console.log(currentCity);
+
     if (currentCity) {
-        //if 
+        let currentCityArray = currentCity.split(",");
+        console.log(currentCity);
+        console.log(currentCityArray);
+        if (currentCityArray.length === 2 && stateAbbreviations.includes(currentCityArray[1].trim())) {
+            currentCity = currentCity + ",US";
+        }
+        console.log(currentCity);
         fetchWeatherFor(currentCity);
         cityInputEl.value = "";
     } else {

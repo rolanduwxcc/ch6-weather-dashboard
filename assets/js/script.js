@@ -1,6 +1,7 @@
 //----------------------------------------------GLOBAL VARIABLES
 let openWeatherKey="eb3997fae2c925d2df0bffe2f227aa9d";
 let savedCities = [];
+let cityListEl = document.getElementById('city-list');
 let currentCity="Madison,WI,US";
 let cityInputEl = document.getElementById('city');
 let citySearchFormEl = document.getElementById('city-search-form');
@@ -22,6 +23,7 @@ function fetchWeatherFor(city) {
                 longitude=coordinatesJSON[0].lon;
                 //feed the coordinates back to openweathermap to get all the date we need
                 fetchWeatherForCoordinates(latitude,longitude);
+                saveCity(city,latitude,longitude);
             });
         } else {
             alert("Error: " + response.statusText);
@@ -140,10 +142,40 @@ function citySearchHandler(event) {
     
 }
 
+function saveCity(city,latitude,longitude) {
+    savedCities.push({
+        city: city,
+        latitude: latitude,
+        longitude: longitude
+    });
+    //store the last 5 searches
+    if (savedCities.length > 5) {
+        savedCities.shift();
+    }
+    localStorage.setItem("savedCities", JSON.stringify(savedCities));
+    loadCities();
+}
+
+function loadCities() {
+    savedCities = JSON.parse(localStorage.getItem("savedCities"));
+    if (!savedCities) {
+        savedCities = [];
+    }
+
+    for (let i = 0; i < savedCities.length; i++) {
+        const element = savedCities[i];
+        let prevCityButtonEl = document.createElement("button");
+        prevCityButtonEl.setAttribute("type","button");
+        prevCityButtonEl.setAttribute("class","col-md-2 btn saveBtn");
+        prevCityButtonEl.textContent = element.city;
+        cityListEl.appendChild(prevCityButtonEl);
+    }
+}
 
 
 //----------------------------------------------CALLS
 // fetchWeatherFor(currentCity);
+loadCities();
 citySearchFormEl.addEventListener("submit",citySearchHandler);
 
 

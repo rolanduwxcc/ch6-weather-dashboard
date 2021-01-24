@@ -13,7 +13,7 @@ function fetchWeatherFor(city) {
     var latitude;
     var longitude;
     var geoCodeLimits=5;
-    var openWeatherGeoCodeURL = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&appid="+openWeatherKey+"&limit="+geoCodeLimits;
+    var openWeatherGeoCodeURL = "https://api.openweathermap.org/geo/1.0/direct?q="+city+"&appid="+openWeatherKey+"&limit="+geoCodeLimits;
     //see https://openweathermap.org/api/geocoding-api#direct_how for reference on how to configure this URL.
 
     fetch(openWeatherGeoCodeURL).then(function(response) {
@@ -30,7 +30,7 @@ function fetchWeatherFor(city) {
         }
     })
     .catch(function(error) {
-        alert("Unable to connec to OpenWeather!");
+        alert("Unable to connect to OpenWeather!");
     });
 }
 

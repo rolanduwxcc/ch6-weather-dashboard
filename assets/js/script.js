@@ -58,6 +58,7 @@ function fetchWeatherForCoordinates(latitude,longitude) {
 
 function buildCurrentWeatherHTML(fromWeatherJSON) {
     currentWeatherEl.innerHTML = "";
+    currentWeatherEl.setAttribute("class","card");
     //Header = city (date) icon
     var headerEl = document.createElement("h3");
     headerEl.innerHTML = currentCity + " (" + getReadableDate(fromWeatherJSON.current.dt) + ") ";
@@ -70,7 +71,7 @@ function buildCurrentWeatherHTML(fromWeatherJSON) {
 
     //Temperature
     var temperatureEl = document.createElement("p");
-    temperatureEl.innerHTML = "Temperature: " + fromWeatherJSON.current.temp + String.fromCharCode(176) + "F";
+    temperatureEl.innerHTML = "Temperature: " + fromWeatherJSON.current.temp.toFixed() + String.fromCharCode(176) + "F";
     currentWeatherEl.appendChild(temperatureEl);
 
     //Humidity
@@ -106,6 +107,8 @@ function buildFiveDayForecastHTML(fromWeatherJSON) {
         dailyWeatherArrayLength = 5; 
     };
     
+    document.getElementById("five-day-title").setAttribute("class","");
+
     //loop over weatherJSON.daily 0
     for (let i = 0; i < dailyWeatherArrayLength; i++) {
         const weatherForDay = dailyWeatherArray[i];
@@ -115,7 +118,8 @@ function buildFiveDayForecastHTML(fromWeatherJSON) {
         dayCardEl.setAttribute("class","card");
         let dateEl = document.createElement("h4");
         let iconEl = document.createElement("p");
-        let temperatureEl = document.createElement("p");
+        let tempHighEl = document.createElement("p");
+        let tempLowEl = document.createElement("p");
         let humidityEl = document.createElement("p");        
 
         let date = getReadableDate(weatherForDay.dt);
@@ -125,8 +129,11 @@ function buildFiveDayForecastHTML(fromWeatherJSON) {
         iconEl.innerHTML = "<img src='http://openweathermap.org/img/wn/"+weatherForDay.weather[0].icon+"@2x.png'>";
         dayCardEl.appendChild(iconEl);
 
-        temperatureEl.innerHTML = "Temp: " + weatherForDay.temp.max + String.fromCharCode(176) + "F";
-        dayCardEl.appendChild(temperatureEl);
+        tempHighEl.innerHTML = "High: " + weatherForDay.temp.max.toFixed() + String.fromCharCode(176) + "F";
+        dayCardEl.appendChild(tempHighEl);
+
+        tempLowEl.innerHTML = "Low: " + weatherForDay.temp.min.toFixed() + String.fromCharCode(176) + "F";
+        dayCardEl.appendChild(tempLowEl);
 
         humidityEl.innerHTML = "Humidity: " + weatherForDay.humidity +"%";
         dayCardEl.appendChild(humidityEl);
@@ -189,7 +196,6 @@ function loadCities() {
         const element = savedCities[i];
         let prevCityButtonEl = document.createElement("button");
         prevCityButtonEl.setAttribute("type","button");
-        // prevCityButtonEl.setAttribute("onclick",fetchWeatherFor(this.textContent));
         prevCityButtonEl.setAttribute("class","col-md-2 btn saveBtn");
         prevCityButtonEl.textContent = element.city.replace(",",", ");
         cityListEl.appendChild(prevCityButtonEl);

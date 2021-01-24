@@ -155,6 +155,9 @@
     background-color: rgb(156, 8, 13);
     color: seashell;
   }
+.hide {
+  display: none;
+}
 
   
   /* CARDS */

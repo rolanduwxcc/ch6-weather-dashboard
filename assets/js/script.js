@@ -6,7 +6,7 @@ let currentCity="Madison,WI,US";
 let cityInputEl = document.getElementById('city');
 let citySearchFormEl = document.getElementById('city-search-form');
 let currentWeatherEl = document.getElementById('current-weather');
-
+let stateAbbrevFormat = {}
 
 //----------------------------------------------FUNCTIONS
 function fetchWeatherFor(city,isSavedCity) {
@@ -18,18 +18,18 @@ function fetchWeatherFor(city,isSavedCity) {
     var geoCodeLimits=5;
     var openWeatherGeoCodeURL = "https://api.openweathermap.org/geo/1.0/direct?q="+city+"&appid="+openWeatherKey+"&limit="+geoCodeLimits;
     //see https://openweathermap.org/api/geocoding-api#direct_how for reference on how to configure this URL.
-
+    console.log(openWeatherGeoCodeURL);
     fetch(openWeatherGeoCodeURL).then(function(response) {
         if(response.ok) {
             response.json().then(function(coordinatesJSON){
-                latitude=coordinatesJSON[0].lat;
-                longitude=coordinatesJSON[0].lon;
+                latitude = coordinatesJSON[0].lat;
+                longitude = coordinatesJSON[0].lon;
                 //feed the coordinates back to openweathermap to get all the date we need
-                fetchWeatherForCoordinates(latitude,longitude);
-                if (!isSavedCity) {saveCity(city,latitude,longitude);} //only need to save if not already there
+                fetchWeatherForCoordinates(latitude, longitude);
+                if (!isSavedCity) { saveCity(city, latitude, longitude); } //only need to save if not already there
             });
         } else {
-            alert("Error: " + response.statusText);
+            alert("Error: " + response.statusText);            
         }
     })
     .catch(function(error) {
@@ -160,10 +160,11 @@ function citySearchHandler(event) {
     currentCity = cityInputEl.value.trim();
     console.log(currentCity);
     if (currentCity) {
+        //if 
         fetchWeatherFor(currentCity);
         cityInputEl.value = "";
     } else {
-        alert("Please enter a valide city or city,state");
+        alert("Please enter a valid 'city' or 'city,country'.");
     }
 }
 

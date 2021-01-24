@@ -157,9 +157,11 @@ function citySearchHandler(event) {
 
 function savedCitiesHandler(event) {
     event.preventDefault();
-    console.log("i was clicked");
+    console.log(this); //where the listener was setup
+    console.log(event.target); //what element actually started it all
     //get the saved city string
-    // currentCity = 
+    currentCity = event.target.textContent;
+    fetchWeatherFor(currentCity);
 }
 
 function saveCity(city,latitude,longitude) {
@@ -168,8 +170,8 @@ function saveCity(city,latitude,longitude) {
         latitude: latitude,
         longitude: longitude
     });
-    //store the last 5 searches
-    if (savedCities.length > 5) {
+    //store the last 7 searches
+    if (savedCities.length > 7) {
         savedCities.shift();
     }
     localStorage.setItem("savedCities", JSON.stringify(savedCities));
@@ -187,6 +189,7 @@ function loadCities() {
         const element = savedCities[i];
         let prevCityButtonEl = document.createElement("button");
         prevCityButtonEl.setAttribute("type","button");
+        // prevCityButtonEl.setAttribute("onclick",fetchWeatherFor(this.textContent));
         prevCityButtonEl.setAttribute("class","col-md-2 btn saveBtn");
         prevCityButtonEl.textContent = element.city.replace(",",", ");
         cityListEl.appendChild(prevCityButtonEl);
@@ -198,7 +201,7 @@ function loadCities() {
 // fetchWeatherFor(currentCity);
 loadCities();
 citySearchFormEl.addEventListener("submit",citySearchHandler);
-cityListEl.addEventListener("submit",savedCitiesHandler);
+cityListEl.addEventListener("click",savedCitiesHandler);
 
 
 
